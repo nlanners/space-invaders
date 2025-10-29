@@ -11,7 +11,7 @@ const Bullet = preload("res://scenes/bullet.tscn")
 func _physics_process(_delta: float) -> void:
 	# Handle shoot.
 	if Input.is_action_just_pressed("shoot"):
-		pass
+		shoot()
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
@@ -22,13 +22,13 @@ func _physics_process(_delta: float) -> void:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 
 	move_and_slide()
-	
+
 
 func shoot():
 	var bullet = Bullet.instantiate()
-	bullet.position = muzzle.global_position
-	pass
-	
-	
+	bullet.start($Muzzle.global_position)
+	get_tree().root.add_child(bullet)
+
+
 func hit():
 	ship_hit.emit()
