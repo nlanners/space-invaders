@@ -3,9 +3,11 @@
 [ext_resource type="Script" uid="uid://8t5jabcyuwmv" path="res://scripts/killzone.gd" id="1_xlapc"]
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_csqde"]
-b = Vector2(1152, 0)
+b = Vector2(600, 0)
 
 [node name="Killzone" type="Area2D"]
+collision_layer = 4
+collision_mask = 4
 script = ExtResource("1_xlapc")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
