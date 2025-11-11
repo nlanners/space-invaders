@@ -19,6 +19,7 @@ var move_interval: float = 0.5
 var should_drop: bool = false
 
 const Enemy = preload("res://scenes/enemy.tscn")
+const Mothership = preload("res://scenes/mothership.tscn")
 
 @onready var enemy_box: Area2D = $EnemyBox
 
@@ -51,6 +52,10 @@ func _on_enemy_box_body_entered(_body: Node2D) -> void:
 	should_drop = true
 	
 
+func _on_mothership_hit():
+	score += 5
+
+
 func process_enemy_movement(delta) -> void:
 	move_timer += delta
 
@@ -62,3 +67,12 @@ func process_enemy_movement(delta) -> void:
 			should_drop = false
 		else:
 			enemy_box.position.x += MOVE_SPEED * direction
+
+
+func process_mothership() -> void:
+	var mothership = Mothership.instantiate()
+	mothership.mothership_hit.connect(_on_mothership_hit)
+	add_child(mothership)
+
+func _on_timer_timeout() -> void:
+	process_mothership()
