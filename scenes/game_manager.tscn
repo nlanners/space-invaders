@@ -37,6 +37,33 @@ shape = SubResource("WorldBoundaryShape2D_glms7")
 [node name="BottomKillzone" parent="Boundaries" instance=ExtResource("3_udu3i")]
 position = Vector2(0, 350)
 
+[node name="Labels" type="Node" parent="."]
+
+[node name="ScoreLabel" type="Label" parent="Labels"]
+offset_left = 5.0
+offset_top = 325.0
+offset_right = 57.0
+offset_bottom = 348.0
+text = "Score: 0"
+
+[node name="LivesLabel" type="Label" parent="Labels"]
+offset_left = 535.0
+offset_top = 325.0
+offset_right = 592.0
+offset_bottom = 348.0
+text = "Lives: 3"
+
+[node name="Bunkers" type="Node" parent="."]
+
+[node name="Bunker" parent="Bunkers" instance=ExtResource("4_oo155")]
+position = Vector2(100, 275)
+
+[node name="Bunker2" parent="Bunkers" instance=ExtResource("4_oo155")]
+position = Vector2(300, 275)
+
+[node name="Bunker3" parent="Bunkers" instance=ExtResource("4_oo155")]
+position = Vector2(500, 275)
+
 [node name="Center" type="Marker2D" parent="."]
 position = Vector2(300, 175)
 
@@ -62,16 +89,6 @@ shape = SubResource("RectangleShape2D_udu3i")
 wait_time = 5.0
 autostart = true
 
-[node name="Bunkers" type="Node" parent="."]
-
-[node name="Bunker" parent="Bunkers" instance=ExtResource("4_oo155")]
-position = Vector2(100, 275)
-
-[node name="Bunker2" parent="Bunkers" instance=ExtResource("4_oo155")]
-position = Vector2(300, 275)
-
-[node name="Bunker3" parent="Bunkers" instance=ExtResource("4_oo155")]
-position = Vector2(500, 275)
-
+[connection signal="ship_hit" from="Player" to="." method="_on_player_ship_hit"]
 [connection signal="body_entered" from="EnemyBox" to="." method="_on_enemy_box_body_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
