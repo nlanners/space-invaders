@@ -10,6 +10,7 @@ const ENEMY_WIDTH: int = 32
 enum EnemyType { NONE, ONE, TWO, THREE }
 
 var score: int = 0
+var lives: int = 3
 
 const MOVE_SPEED = 20
 
@@ -49,7 +50,12 @@ func _on_enemy_hit():
 func _on_enemy_box_body_entered(_body: Node2D) -> void:
 	direction *= -1
 	should_drop = true
-	
+
+
+func _on_player_ship_hit() -> void:
+	lives -= 1
+	enemy_box.position = Vector2(150, 0)
+
 
 func process_enemy_movement(delta) -> void:
 	move_timer += delta

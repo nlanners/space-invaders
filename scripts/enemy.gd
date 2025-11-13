@@ -9,10 +9,16 @@ signal enemy_hit
 @onready var enemy_1: AnimatedSprite2D = $Enemy1
 @onready var enemy_2: AnimatedSprite2D = $Enemy2
 @onready var enemy_3: AnimatedSprite2D = $Enemy3
+@onready var explosion: AnimatedSprite2D = $Explosion
+@onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
+@onready var muzzle: Marker2D = $Muzzle
+
+const Bullet = preload("res://scenes/bullet.tscn")
+
+const SHOT_CHANCE = .0005
 
 var move_timer = 0
 var move_interval = 0.5
-
 var animation_node: AnimatedSprite2D
 
 # Called when the node enters the scene tree for the first time.
@@ -44,9 +50,24 @@ func _process(delta: float) -> void:
 		else:
 			animation_node.frame = 0
 			
-			
+	if randf() < SHOT_CHANCE:
+		shoot()
 
 
 func hit():
 	enemy_hit.emit()
+	collision_shape_2d.queue_free()
+	animation_node.visible = false
+	explosion.visible = true
+	explosion.play()
+
+
+func shoot():
+	var bullet = Bullet.instantiate()
+	bullet.set_collision_mask_value(4, true)
+	bullet.start(muzzle.global_position, 1)
+	get_tree().root.add_child(bullet)
+
+
+func _on_explosion_animation_finished() -> void:
 	queue_free()

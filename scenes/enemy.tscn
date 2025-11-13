@@ -1,7 +1,8 @@
-[gd_scene load_steps=13 format=3 uid="uid://bmnsshbidjbrv"]
+[gd_scene load_steps=14 format=3 uid="uid://bmnsshbidjbrv"]
 
 [ext_resource type="Script" uid="uid://cbfav3d0vu4a4" path="res://scripts/enemy.gd" id="1_7p1mj"]
 [ext_resource type="Texture2D" uid="uid://d3i7oby44o1ml" path="res://assets/sprites/enemy-ships-Sheet.png" id="2_md0e3"]
+[ext_resource type="PackedScene" uid="uid://ce317hnhaqnma" path="res://scenes/explosion.tscn" id="3_4ra3w"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4ra3w"]
 atlas = ExtResource("2_md0e3")
@@ -93,3 +94,11 @@ sprite_frames = SubResource("SpriteFrames_w8i8w")
 position = Vector2(0, 5)
 rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_md0e3")
+
+[node name="Explosion" parent="." instance=ExtResource("3_4ra3w")]
+visible = false
+
+[node name="Muzzle" type="Marker2D" parent="."]
+position = Vector2(0, 14)
+
+[connection signal="animation_finished" from="Explosion" to="." method="_on_explosion_animation_finished"]

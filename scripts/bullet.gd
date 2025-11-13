@@ -3,9 +3,9 @@ extends CharacterBody2D
 const SPEED = 500
 
 
-func start(_position):
+func start(_position, direction):
 	position = _position
-	velocity = Vector2(0, -SPEED)
+	velocity = Vector2(0, SPEED * direction)
 
 
 func _physics_process(delta: float) -> void:

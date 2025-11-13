@@ -1,0 +1,78 @@
+[gd_scene load_steps=12 format=3 uid="uid://ce317hnhaqnma"]
+
+[ext_resource type="Texture2D" uid="uid://cxskoalr2bkdt" path="res://assets/sprites/explosion-Sheet.png" id="1_17npe"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nfeox"]
+atlas = ExtResource("1_17npe")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aw4cw"]
+atlas = ExtResource("1_17npe")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3el85"]
+atlas = ExtResource("1_17npe")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hbmxj"]
+atlas = ExtResource("1_17npe")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xfoey"]
+atlas = ExtResource("1_17npe")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v8gpv"]
+atlas = ExtResource("1_17npe")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cun36"]
+atlas = ExtResource("1_17npe")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vk406"]
+atlas = ExtResource("1_17npe")
+region = Rect2(224, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4jttm"]
+atlas = ExtResource("1_17npe")
+region = Rect2(256, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6smmu"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nfeox")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aw4cw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3el85")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hbmxj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xfoey")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v8gpv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cun36")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vk406")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4jttm")
+}],
+"loop": false,
+"name": &"default",
+"speed": 10.0
+}]
+
+[node name="Explosion" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_6smmu")
+frame = 1
