@@ -1,11 +1,17 @@
-extends Area2D
+extends CharacterBody2D
+
+const SPEED = 500
 
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
+func start(_position, direction):
+	position = _position
+	velocity = Vector2(0, SPEED * direction)
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta: float) -> void:
-	pass
+func _physics_process(delta: float) -> void:
+	var collision = move_and_collide(velocity * delta)
+	if collision:
+		var collider = collision.get_collider()
+		if collider.has_method("hit"):
+			collider.hit()
+			queue_free()

@@ -2,31 +2,95 @@ extends Node2D
 
 const NUMBER_OF_ROWS: int = 3
 const ROW_WIDTH: int = 10
-const FIELD_LEFT: int = 440
-const FIELD_TOP: int = 350
+const FIELD_LEFT: int = 0
+const FIELD_TOP: int = 16
 const ENEMY_HEIGHT: int = 32
 const ENEMY_WIDTH: int = 32
 
-enum EnemyType {NONE, ONE, TWO, THREE}
+enum EnemyType { NONE, ONE, TWO, THREE }
+
+var score: int = 0
+var lives: int = 3
+
+const MOVE_SPEED = 20
+
+var direction: int = 1
+var move_timer: float = 0
+var move_interval: float = 0.5
+var should_drop: bool = false
 
 const Enemy = preload("res://scenes/enemy.tscn")
+const Mothership = preload("res://scenes/mothership.tscn")
+
+@onready var enemy_box: Area2D = $EnemyBox
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	@warning_ignore("integer_division")
-	var field_left = 300 + (300 - ((ENEMY_WIDTH * ROW_WIDTH) / 2))
 	for i in NUMBER_OF_ROWS * ROW_WIDTH:
 		var enemy = Enemy.instantiate()
-		enemy.add_to_group("enemies")
-		enemy.enemy_type = [EnemyType.ONE, EnemyType.TWO, EnemyType.THREE].pick_random()
+		enemy.enemy_hit.connect(_on_enemy_hit)
 		@warning_ignore("integer_division")
-		enemy.global_position = Vector2(
-			field_left + (ENEMY_WIDTH / 2) + ((i % ROW_WIDTH) * ENEMY_WIDTH),
-			FIELD_TOP + ((i / ROW_WIDTH) * ENEMY_HEIGHT) 
+		enemy.position = Vector2(
+			(ENEMY_WIDTH / 2) + ((i % ROW_WIDTH) * ENEMY_WIDTH),
+			(ENEMY_HEIGHT / 2) + ((i / ROW_WIDTH) * ENEMY_HEIGHT)
 		)
-		add_child(enemy)
+		enemy_box.add_child(enemy)
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta: float) -> void:
-	pass
+func _process(delta) -> void:
+	process_enemy_movement(delta)
+	
+	if get_tree().get_node_count_in_group("enemies") <= 0:
+		pass
+
+
+func _on_enemy_hit():
+	score += 1
+	adjust_score_label()
+
+
+func _on_enemy_box_body_entered(_body: Node2D) -> void:
+	direction *= -1
+	should_drop = true
+
+
+func _on_player_ship_hit() -> void:
+	lives -= 1
+	enemy_box.position = Vector2(150, 34)
+	
+	$Labels/LivesLabel.text = "Lives: %d" % lives
+	if lives <= 0:
+		# Handle game over
+		pass
+
+
+func _on_mothership_hit():
+	score += 5
+	adjust_score_label()
+
+
+func _on_timer_timeout() -> void:
+	process_mothership()
+
+
+func adjust_score_label() -> void:
+	$Labels/ScoreLabel.text = "Score: %d" % score
+
+
+func process_enemy_movement(delta) -> void:
+	move_timer += delta
+
+	if move_timer >= move_interval:
+		move_timer = 0
+		
+		if should_drop:
+			enemy_box.position.y += ENEMY_HEIGHT
+			should_drop = false
+		else:
+			enemy_box.position.x += MOVE_SPEED * direction
+
+
+func process_mothership() -> void:
+	var mothership = Mothership.instantiate()
+	mothership.mothership_hit.connect(_on_mothership_hit)
+	add_child(mothership)

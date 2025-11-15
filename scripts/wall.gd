@@ -1,11 +1,11 @@
 extends StaticBody2D
 
 
-var health = 5
-
-
 func hit():
-	health -= 1
 	
-	if health <= 0:
+	var frame = $AnimatedSprite2D.frame
+
+	if frame >= 4:
 		queue_free()
+		
+	$AnimatedSprite2D.frame += 1
