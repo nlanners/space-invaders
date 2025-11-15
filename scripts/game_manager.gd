@@ -20,6 +20,7 @@ var move_interval: float = 0.5
 var should_drop: bool = false
 
 const Enemy = preload("res://scenes/enemy.tscn")
+const Mothership = preload("res://scenes/mothership.tscn")
 
 @onready var enemy_box: Area2D = $EnemyBox
 
@@ -45,6 +46,7 @@ func _process(delta) -> void:
 
 func _on_enemy_hit():
 	score += 1
+	adjust_score_label()
 
 
 func _on_enemy_box_body_entered(_body: Node2D) -> void:
@@ -55,6 +57,27 @@ func _on_enemy_box_body_entered(_body: Node2D) -> void:
 func _on_player_ship_hit() -> void:
 	lives -= 1
 	enemy_box.position = Vector2(150, 0)
+
+
+func _on_mothership_hit():
+	score += 5
+	adjust_score_label()
+
+
+func _on_timer_timeout() -> void:
+	process_mothership()
+
+
+func _on_player_ship_hit() -> void:
+	lives -= 1
+	$Labels/LivesLabel.text = "Lives: %d" % lives
+	if lives <= 0:
+		# Handle game over
+		pass
+
+
+func adjust_score_label() -> void:
+	$Labels/ScoreLabel.text = "Score: %d" % score
 
 
 func process_enemy_movement(delta) -> void:
@@ -68,3 +91,13 @@ func process_enemy_movement(delta) -> void:
 			should_drop = false
 		else:
 			enemy_box.position.x += MOVE_SPEED * direction
+
+
+func process_mothership() -> void:
+	var mothership = Mothership.instantiate()
+	mothership.mothership_hit.connect(_on_mothership_hit)
+	add_child(mothership)
+
+
+
+
