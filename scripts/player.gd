@@ -29,6 +29,7 @@ func _physics_process(_delta: float) -> void:
 func shoot():
 	var bullet = Bullet.instantiate()
 	bullet.set_collision_mask_value(1, true)
+	bullet.set_collision_mask_value(4, true)
 	bullet.start($Muzzle.global_position, -1)
 	get_tree().root.add_child(bullet)
 
@@ -41,4 +42,6 @@ func hit():
 
 
 func _on_explosion_animation_finished() -> void:
-	queue_free()
+	position = Vector2(300, 325)
+	sprite_2d.visible = true
+	explosion.visible = false

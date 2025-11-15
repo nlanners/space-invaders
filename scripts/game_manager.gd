@@ -56,7 +56,12 @@ func _on_enemy_box_body_entered(_body: Node2D) -> void:
 
 func _on_player_ship_hit() -> void:
 	lives -= 1
-	enemy_box.position = Vector2(150, 0)
+	enemy_box.position = Vector2(150, 34)
+	
+	$Labels/LivesLabel.text = "Lives: %d" % lives
+	if lives <= 0:
+		# Handle game over
+		pass
 
 
 func _on_mothership_hit():
@@ -66,14 +71,6 @@ func _on_mothership_hit():
 
 func _on_timer_timeout() -> void:
 	process_mothership()
-
-
-func _on_player_ship_hit() -> void:
-	lives -= 1
-	$Labels/LivesLabel.text = "Lives: %d" % lives
-	if lives <= 0:
-		# Handle game over
-		pass
 
 
 func adjust_score_label() -> void:
@@ -97,7 +94,3 @@ func process_mothership() -> void:
 	var mothership = Mothership.instantiate()
 	mothership.mothership_hit.connect(_on_mothership_hit)
 	add_child(mothership)
-
-
-
-

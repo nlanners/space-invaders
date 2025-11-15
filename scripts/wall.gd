@@ -9,4 +9,3 @@ func hit():
 		queue_free()
 		
 	$AnimatedSprite2D.frame += 1
-

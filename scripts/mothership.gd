@@ -7,6 +7,7 @@ const SPEED = 300.0
 
 enum MothershipSide {RIGHT = -1, LEFT = 1}
 
+@onready var explosion = $Explosion
 
 func _ready() -> void:
 	var side = [MothershipSide.RIGHT, MothershipSide.LEFT].pick_random()
@@ -30,4 +31,10 @@ func _physics_process(_delta: float) -> void:
 
 func hit():
 	mothership_hit.emit()
+	velocity.x = 0
+	$AnimatedSprite2D.visible = false
+	explosion.visible = true
+	explosion.play()
+
+func _on_explosion_animation_finished() -> void:
 	queue_free()
